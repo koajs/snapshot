@@ -1,6 +1,6 @@
 {
   "name": "koa-snapshot",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "take a snapshot for each url",
   "main": "index.js",
   "scripts": {
