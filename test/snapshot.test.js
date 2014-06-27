@@ -60,6 +60,7 @@ describe('test/snapshot.test.js', function () {
     request(app)
     .get('/')
     .expect(200)
+    .expect('X-Snapshot-Status', 500)
     .expect('hello world', done);
   });
 
