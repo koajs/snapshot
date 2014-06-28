@@ -20,7 +20,7 @@ app.use(snapshot());
 var status = 200;
 app.use(function* () {
   if (status === 200) {
-    this.type = 'html';
+    this.type = 'text/html; charset=gbk';
     return this.body = 'hello world';
   }
 

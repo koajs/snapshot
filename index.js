@@ -37,17 +37,20 @@ module.exports = function (options) {
     // only cache html
     if (!this.response.is('html')) return;
     // update cache
-    cache.set(this.path, this.body);
+    cache.set(this.path, {
+      body: this.body,
+      type: this.get('Content-Type') || 'html'
+    });
   };
 
   function errorHandler(err, ctx) {
     if (err.status && err.status < 500) throw err;
-    var content = cache.get(ctx.path);
-    if (!content) throw err;
+    var c = cache.get(ctx.path);
+    if (!c) throw err;
 
     ctx.app.emit('error', err);
-    ctx.type = 'html';
-    ctx.body = content;
+    ctx.type = c.type;
+    ctx.body = c.body;
     ctx.set('X-Snapshot-Status', err.status || 500);
     return;
   }
