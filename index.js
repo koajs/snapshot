@@ -17,7 +17,7 @@ var defaultOptions = {
   max: 50 * 1024 * 1024,  // 50mb
   maxAge: 12 * 60 * 60 * 1000,  // 12h
   length: function (n) {
-    return n.length;
+    return n.body ? n.body.length : 0;
   }
 };
 
