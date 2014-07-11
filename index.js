@@ -10,7 +10,6 @@
  * Module dependencies.
  */
 
-var LRUCache = require('lru-cache');
 var copy = require('copy-to');
 
 var defaultOptions = {
@@ -25,7 +24,7 @@ module.exports = function (options) {
   options = options || {};
   copy(defaultOptions).to(options);
 
-  var cache = exports.contentCache = new LRUCache(options);
+  var cache = options.cache || require('lru-cache')(options);
 
   return function* snapshot(next) {
     try {
@@ -36,6 +35,8 @@ module.exports = function (options) {
 
     // only cache html
     if (!this.response.is('html')) return;
+    // only cache 2xx
+    if ((this.status / 100 | 0) !== 2) return;
     // update cache
     cache.set(this.path, {
       body: this.body,

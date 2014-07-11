@@ -23,9 +23,10 @@ app.use(snapshot());
 
 ## Options
 
-all the options are pass to [lru-cache](https://github.com/isaacs/node-lru-cache).
+Use your own cache client by `options.cache`.
+If do not present `options.cache`, snapshot will create a [lru-cache](https://github.com/isaacs/node-lru-cache) instance with the options.
 
-default options:
+default options for lru-cache:
 
 ```
 {
