@@ -10,15 +10,18 @@
  * Module dependencies.
  */
 
+var request = require('supertest');
+var should = require('should');
 var snapshot = require('..');
 var koa = require('koa');
-var request = require('supertest');
 
 var app = koa();
 app.use(snapshot());
 
 var status = 200;
+var noSnapshot = false;
 app.use(function* () {
+  this.noSnapshot = noSnapshot;
   if (status === 200) {
     this.type = 'text/html; charset=gbk';
     return this.body = 'hello world';
@@ -32,6 +35,7 @@ app = app.callback();
 describe('test/snapshot.test.js', function () {
   afterEach(function () {
     status = 200;
+    noSnapshot = false;
   });
 
   it('should not cache when 404', function (done) {
@@ -69,5 +73,27 @@ describe('test/snapshot.test.js', function () {
     request(app)
     .get('/')
     .expect(404, done);
+  });
+
+  it('should not use cache when noSnapshot = true', function (done) {
+    status = 500;
+    noSnapshot = true;
+    request(app)
+    .get('/')
+    .expect(500, done);
+  });
+
+  it('should not cache when noSnapshot = true', function (done) {
+    noSnapshot = true;
+    request(app)
+    .get('/nocache')
+    .expect(200, function (err) {
+      should.not.exist(err);
+      status = 500;
+      noSnapshot = false;
+      request(app)
+      .get('/nocache')
+      .expect(500, done);
+    });
   });
 });

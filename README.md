@@ -38,6 +38,10 @@ default options for lru-cache:
 }
 ```
 
+## Turn off Snapshot
+
+You can manually turn off snapshot by set `this.noSnapshot = true` in every request.
+
 ## License
 
 MIT

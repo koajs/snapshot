@@ -32,19 +32,24 @@ module.exports = function (options) {
     } catch (err) {
       return errorHandler(err, this);
     }
-
-    // only cache html
-    if (!this.response.is('html')) return;
-    // only cache 2xx
-    if ((this.status / 100 | 0) !== 2) return;
-    // update cache
-    cache.set(this.path, {
-      body: this.body,
-      type: this.get('Content-Type') || 'html'
-    });
+    setCache(this);
   };
 
+  function setCache(ctx) {
+    if (ctx.noSnapshot) return;
+    // only cache html
+    if (!ctx.response.is('html')) return;
+    // only cache 2xx
+    if ((ctx.status / 100 | 0) !== 2) return;
+    // update cache
+    cache.set(ctx.path, {
+      body: ctx.body,
+      type: ctx.get('Content-Type') || 'html'
+    });
+  }
+
   function errorHandler(err, ctx) {
+    if (ctx.noSnapshot) throw err;
     if (err.status && err.status < 500) throw err;
     var c = cache.get(ctx.path);
     if (!c) throw err;
