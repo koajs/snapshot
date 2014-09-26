@@ -26,7 +26,13 @@ app.use(function* () {
     this.type = 'text/html; charset=gbk';
     return this.body = 'hello world';
   }
-
+  if (status === 201) {
+    this.status = 201;
+    return this.body = {ok: true};
+  }
+  if (status === 302) {
+    return this.redirect('https://github.com');
+  }
   this.throw(status);
 });
 
@@ -38,13 +44,6 @@ describe('test/snapshot.test.js', function () {
     noSnapshot = false;
   });
 
-  it('should not cache when 404', function (done) {
-    status = 404;
-    request(app)
-    .get('/')
-    .expect(404, done);
-  });
-
   it('should 500', function (done) {
     status = 500;
     request(app)
@@ -52,22 +51,46 @@ describe('test/snapshot.test.js', function () {
     .expect(500, done);
   });
 
-  it('should 200 ok', function (done) {
-    request(app)
-    .get('/')
-    .expect(200)
-    .expect('hello world', done);
-  });
+  describe('cache html', function () {
+    before(function (done) {
+      request(app)
+      .get('/')
+      .expect(200)
+      .expect('hello world', done);
+    });
 
-  it('should cache 200 ok', function (done) {
-    status = 500;
-    request(app)
-    .get('/')
-    .expect(200)
-    .expect('X-Snapshot-Status', 500)
-    .expect('Content-Type', 'text/html; charset=gbk')
-    .expect('hello world', done);
-  });
+    afterEach(function (done) {
+      status = 500;
+      request(app)
+      .get('/')
+      .expect(200)
+      .expect('X-Snapshot-Status', 500)
+      .expect('Content-Type', 'text/html; charset=gbk')
+      .expect('hello world', done);
+    });
+
+    it('should not cache when 302', function (done) {
+      status = 302;
+      request(app)
+      .get('/')
+      .expect(302, done);
+    });
+
+    it('should not cache when 404', function (done) {
+      status = 404;
+      request(app)
+      .get('/')
+      .expect(404, done);
+    });
+
+    it('should not cache when not html', function (done) {
+      status = 201;
+      request(app)
+      .get('/')
+      .expect({ok: true})
+      .expect(201, done);
+    });
+  })
 
   it('should not use cache when < 500', function (done) {
     status = 404;

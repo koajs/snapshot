@@ -24,6 +24,7 @@
   "homepage": "https://github.com/koajs/snapshot",
   "devDependencies": {
     "autod": "^0.2.1",
+    "istanbul-harmony": "~0.3.0",
     "koa": "~0.8.1",
     "mocha": "*",
     "should": "^4.0.4",
@@ -32,5 +33,6 @@
   "dependencies": {
     "copy-to": "~1.0.1",
     "lru-cache": "~2.5.0"
-  }
+  },
+  "files": ["index.js"]
 }
