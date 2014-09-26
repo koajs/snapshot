@@ -44,7 +44,7 @@ module.exports = function (options) {
     // update cache
     cache.set(ctx.path, {
       body: ctx.body,
-      type: ctx.get('Content-Type') || 'html'
+      type: ctx.response.get('Content-Type') || 'html'
     });
   }
 

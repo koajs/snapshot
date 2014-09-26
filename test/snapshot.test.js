@@ -65,6 +65,7 @@ describe('test/snapshot.test.js', function () {
     .get('/')
     .expect(200)
     .expect('X-Snapshot-Status', 500)
+    .expect('Content-Type', 'text/html; charset=gbk')
     .expect('hello world', done);
   });
 
