@@ -32,6 +32,7 @@ module.exports = function (options) {
     } catch (err) {
       return errorHandler(err, this);
     }
+    getFromCache(this);
     setCache(this);
   };
 
@@ -48,6 +49,19 @@ module.exports = function (options) {
     });
   }
 
+  function getFromCache(ctx) {
+    if (ctx.noSnapshot) return;
+    if (ctx.status < 500) return;
+    var c = cache.get(ctx.path);
+    if (!c) return;
+
+    ctx.type = c.type;
+    ctx.body = c.body;
+    ctx.set('X-Snapshot-Status', ctx.status || 500);
+    ctx.status = 200;
+    return;
+  }
+
   function errorHandler(err, ctx) {
     if (ctx.noSnapshot) throw err;
     if (err.status && err.status < 500) throw err;
@@ -60,4 +74,5 @@ module.exports = function (options) {
     ctx.set('X-Snapshot-Status', err.status || 500);
     return;
   }
+
 };
