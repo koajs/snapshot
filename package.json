@@ -27,7 +27,7 @@
     "istanbul-harmony": "~0.3.0",
     "koa": "~0.8.1",
     "mocha": "*",
-    "should": "^4.0.4",
+    "should": "^8.1.0",
     "supertest": "~0.13.0"
   },
   "dependencies": {
