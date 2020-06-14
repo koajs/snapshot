@@ -1,14 +1,23 @@
 {
   "name": "koa-snapshot",
   "version": "1.2.0",
-  "description": "take a snapshot for each url",
+  "description": "Take a snapshot for each url.",
   "main": "index.js",
-  "scripts": {
-    "test": "make test"
-  },
+  "files": [
+    "index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:koajs/snapshot.git"
+  },
+  "scripts": {
+    "lint": "xo",
+    "pretest": "npm run lint",
+    "test": "mocha --exit",
+    "precoverage": "rimraf .nyc_output coverage",
+    "coverage": "nyc npm run test",
+    "preci": "echo start CI ........",
+    "ci": "npm run coverage"
   },
   "keywords": [
     "koa",
@@ -17,24 +26,45 @@
     "errorHandler"
   ],
   "author": "dead_horse <dead_horse@qq.com>",
+  "contributors": [
+    "3imed-jaberi <imed_jebari@hotmail.fr> (https://www.3imed-jaberi.com)"
+  ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/koajs/snapshot/issues"
+  "dependencies": {
+    "lru-cache": "^5.1.1"
+  },
+  "devDependencies": {
+    "eslint-config-xo-lass": "^1.0.3",
+    "koa": "^2.12.1",
+    "mocha": "7",
+    "nyc": "^15.1.0",
+    "should": "^13.2.3",
+    "supertest": "0",
+    "xo": "^0.32.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "trailingComma": "none"
+  },
+  "xo": {
+    "prettier": true,
+    "space": true,
+    "extends": [
+      "xo-lass"
+    ],
+    "ignore": [
+      "test"
+    ],
+    "rules": {
+      "node/no-deprecated-api": "off",
+      "no-unused-vars": "off",
+      "no-prototype-builtins": "off",
+      "prefer-rest-params": "off"
+    }
   },
   "homepage": "https://github.com/koajs/snapshot",
-  "devDependencies": {
-    "autod": "^2.4.2",
-    "istanbul-harmony": "~0.3.0",
-    "koa": "~0.8.1",
-    "mocha": "*",
-    "should": "^4.0.4",
-    "supertest": "~0.13.0"
-  },
-  "dependencies": {
-    "copy-to": "~1.0.1",
-    "lru-cache": "~2.5.0"
-  },
-  "files": [
-    "index.js"
-  ]
+  "bugs": {
+    "url": "https://github.com/koajs/snapshot/issues"
+  }
 }
