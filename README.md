@@ -1,4 +1,4 @@
-snapshot
+[snapshot][github-repo]
 ----------
 
 [![NPM version][npm-image]][npm-url]
@@ -7,8 +7,8 @@ snapshot
 [![David deps][david-image]][david-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
-[![Gittip][gittip-image]][gittip-url]
 
+[github-repo]: https://github.com/koajs/snapshot
 [npm-image]: https://img.shields.io/npm/v/koa-snapshot.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/koa-snapshot
 [travis-image]: https://img.shields.io/travis/koajs/snapshot.svg?style=flat-square
@@ -21,26 +21,26 @@ snapshot
 [node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/koa-snapshot.svg?style=flat-square
 [download-url]: https://npmjs.org/package/koa-snapshot
-[gittip-image]: https://img.shields.io/gittip/dead-horse.svg?style=flat-square
-[gittip-url]: https://www.gittip.com/dead-horse/
 
-take snapshot when request, cache by request path.
+Take snapshot when request, cache by request path.
 
 ## Install
 
-```
-npm install koa-snapshot
+```bash
+# npm ..
+npm i koa-snapshot
+# yarn ..
+yarn add koa-snapshot
 ```
 
 ## Usage
 
-```
-var koa = require('koa');
-var snapshot = require('koa-snapshot');
-var app = koa();
+```js
+const Koa = require('koa');
+const snapshot = require('koa-snapshot');
+const app = new Koa();
 
 app.use(snapshot());
-
 ```
 
 ## Options
@@ -66,4 +66,4 @@ You can manually turn off snapshot by set `this.noSnapshot = true` in every requ
 
 ## License
 
-MIT
+[MIT](LICENSE)
