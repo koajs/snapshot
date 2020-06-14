@@ -63,6 +63,9 @@
       "prefer-rest-params": "off"
     }
   },
+  "engines": {
+    "node": ">= 10"
+  },
   "homepage": "https://github.com/koajs/snapshot",
   "bugs": {
     "url": "https://github.com/koajs/snapshot/issues"
